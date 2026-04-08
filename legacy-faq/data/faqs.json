@@ -1,0 +1,296 @@
+[
+  {
+    "id": 1,
+    "category": "Project Level",
+    "question": "What is the total land area?",
+    "answer": "7.98 Acres"
+  },
+  {
+    "id": 2,
+    "category": "Project Level",
+    "question": "What is the project launch date?",
+    "answer": "June 2026"
+  },
+  {
+    "id": 3,
+    "category": "Project Level",
+    "question": "What is the project handover date?",
+    "answer": "June 2031"
+  },
+  {
+    "id": 4,
+    "category": "Project Level",
+    "question": "How many towers the project will have?",
+    "answer": "3 towers"
+  },
+  {
+    "id": 5,
+    "category": "Project Level",
+    "question": "How many floors per tower?",
+    "answer": "G+50 (Ground + 50 floors)"
+  },
+  {
+    "id": 6,
+    "category": "Project Level",
+    "question": "How many units in total?",
+    "answer": "1499 units"
+  },
+  {
+    "id": 7,
+    "category": "Project Level",
+    "question": "How much is the total open space?",
+    "answer": "75% of the total area is open space"
+  },
+  {
+    "id": 9,
+    "category": "Project Level",
+    "question": "How many entry and exit points?",
+    "answer": "2 entry/exit points: 1 Podium Entry and 1 Basement Entry"
+  },
+  {
+    "id": 10,
+    "category": "Project Level",
+    "question": "Will there be any vehicular movement on the podium?",
+    "answer": "No, there will be no vehicular movement on the podium"
+  },
+  {
+    "id": 11,
+    "category": "Project Level",
+    "question": "STP and WTP locations in the project?",
+    "answer": "STP (Sewage Treatment Plant) is located at B4 and B5. WTP (Water Treatment Plant) is located at B2 and B3."
+  },
+  {
+    "id": 12,
+    "category": "Project Level",
+    "question": "DG setup location?",
+    "answer": "DG Yard is located at B2 and B1"
+  },
+  {
+    "id": 13,
+    "category": "Project Level",
+    "question": "Will the terrace be accessible?",
+    "answer": "The terrace will only be accessible as a viewing deck"
+  },
+  {
+    "id": 14,
+    "category": "Project Level",
+    "question": "How many basements?",
+    "answer": "5 basements (B1 through B5)"
+  },
+  {
+    "id": 15,
+    "category": "Project Level",
+    "question": "What is the parking allotment logic for sales pitch?",
+    "answer": "Higher floor = higher parking floor. For example: 45th floor unit gets B1 parking, 5th floor unit gets B5 parking. Corner units get priority with 3 Car Parks."
+  },
+  {
+    "id": 16,
+    "category": "Project Level",
+    "question": "How is the traffic flow plan in the basements? Single straight ramp or circular ramps?",
+    "answer": "From the main gate going down to Tower A, the circulation follows a circular ramp. From the Tower C entry, it follows a straight ramp."
+  },
+  {
+    "id": 17,
+    "category": "Project Level",
+    "question": "How many borewells are in the project?",
+    "answer": "Information to be updated"
+  },
+  {
+    "id": 18,
+    "category": "Project Level",
+    "question": "What are the different configurations?",
+    "answer": "Premium 3BHK: 1970 sft (East, West & North facing)\nLuxury 3BHK: 2085 sft (North facing), 2115 sft (East facing)\nPremium 4BHK: 2535 sft (East & North facing), 2540 sft (East & West facing)\nLuxury 4BHK: 3015 sft (East & West facing)"
+  },
+  {
+    "id": 19,
+    "category": "Project Level",
+    "question": "Will there be municipal water connection? Manjeera or Krishna?",
+    "answer": "Yes, there will be municipal water connection (Manjeera / Krishna)"
+  },
+  {
+    "id": 20,
+    "category": "Project Level",
+    "question": "What is the common area loading factor?",
+    "answer": "32%"
+  },
+  {
+    "id": 21,
+    "category": "Project Level",
+    "question": "What is the width of the front road?",
+    "answer": "Information to be updated"
+  },
+  {
+    "id": 22,
+    "category": "Project Level",
+    "question": "Refuge area identification?",
+    "answer": "Refuge areas are on floors 18, 28, 37, and 47 in the tower"
+  },
+  {
+    "id": 23,
+    "category": "Project Level",
+    "question": "What would be the height of the basements?",
+    "answer": "Basement 1: 5 m (~16'5\")\nBasements 2, 3, 4 & 5: 3.5 m (~11'6\")"
+  },
+  {
+    "id": 24,
+    "category": "Project Level",
+    "question": "Overhead water storage capacity?",
+    "answer": "750 KLD (Kiloliters per Day)"
+  },
+  {
+    "id": 25,
+    "category": "Project Level",
+    "question": "How many educational institutions are there nearby?",
+    "answer": "People's School of Excellence (7 mins away)\nGoodwill High School (9 mins away)\nQueens Global School (9 mins away)\nMeridian School (15 mins away)\nOsmania University (15 mins away)\nDPS Nacharam (22 mins away)\nHyderabad Public School (22 mins away)"
+  },
+  {
+    "id": 26,
+    "category": "Project Level",
+    "question": "How many hospitals are around?",
+    "answer": "Srikara Hospital (3 mins away)\nGuru Nanak Care Hospital (5 mins away)\nBristlecone (7 mins away)\nTX Hospital (7 mins away)\nRainbow Children Hospital (8 mins away)\nApollo Hospital (10 mins away)\nKIMS Hospital (15 mins away)"
+  },
+  {
+    "id": 27,
+    "category": "Unit Level",
+    "question": "How much is the distance between towers?",
+    "answer": "20.45 meters or 67 feet between towers"
+  },
+  {
+    "id": 28,
+    "category": "Unit Level",
+    "question": "How much is the distance from other structures?",
+    "answer": "The distance from other structures is different for each unit"
+  },
+  {
+    "id": 29,
+    "category": "Unit Level",
+    "question": "How much is the UDS (Undivided Share)?",
+    "answer": "1970 sft → 22.35 Sq.Yard UDS\n2085 sft → 23.65 Sq.Yard UDS\n2115 sft → 23.99 Sq.Yard UDS\n2535 sft → 28.75 Sq.Yard UDS\n2540 sft → 28.82 Sq.Yard UDS\n3015 sft → 34.2 Sq.Yard UDS"
+  },
+  {
+    "id": 30,
+    "category": "Unit Level",
+    "question": "How much is the door height and width?",
+    "answer": "Main Door (MD): 1500mm wide × 2400mm high\nMain Door (MD1): 1200mm wide × 2100mm high\nBedroom Door (D1): 1800mm wide × 2500mm high\nWalk-in Closet (D2): 1600mm wide × 2300mm high\nUtility Door (UD): 2000mm wide × 2600mm high\nSliding Door (SD): 1400mm wide × 2200mm high"
+  },
+  {
+    "id": 31,
+    "category": "Unit Level",
+    "question": "What would be the size of the windows?",
+    "answer": "W1 Sliding window: 3100×2300mm\nW2 Sliding window: 2600×2300mm\nW3 Top hung window: 1000×2300mm\nW4 Sliding window: 2400×2300mm\nW5 Sliding window: 2300×2300mm\nW6 Sliding window: 2200×2300mm\nW7 Sliding window: 2100×2300mm\nW8 Top hung window: 2000×2300mm\nW9 Sliding window: 1800×2300mm\nW10 Sliding window: 1500×2300mm\nW11 Casement window: 750×2300mm\nKitchen windows range from 1000-2000mm wide × 1200mm high\nVentilators: 750×1150mm"
+  },
+  {
+    "id": 32,
+    "category": "Clubhouse",
+    "question": "How big is the clubhouse?",
+    "answer": "74,000 sft (square feet)"
+  },
+  {
+    "id": 33,
+    "category": "Clubhouse",
+    "question": "How many floors are there in the clubhouse?",
+    "answer": "G+5 (Ground + 5 floors)"
+  },
+  {
+    "id": 34,
+    "category": "Clubhouse",
+    "question": "What is the floor wise plan of the clubhouse?",
+    "answer": "Ground Floor: Banquet Hall (250 pax), Banquet Hall-1, Pre-Function/Banquet Hall-2\nFirst Floor: Gym, Yoga/Aerobics\nSecond Floor: Double Heighted Indoor Badminton Court (3), Futsal Court (1)\nFourth Floor: Salon & Spa\nFifth Floor: Big Living Room with Deck (3), Guest Rooms (10)\nTerrace Floor: Swimming Pool, Kids Pool, Pool Deck"
+  },
+  {
+    "id": 35,
+    "category": "Clubhouse",
+    "question": "How many guest rooms will be provided?",
+    "answer": "10 guest rooms in the clubhouse (5th floor)"
+  },
+  {
+    "id": 36,
+    "category": "Clubhouse",
+    "question": "How many banquet halls?",
+    "answer": "2 banquet halls"
+  },
+  {
+    "id": 37,
+    "category": "Clubhouse",
+    "question": "What is the capacity of the banquet halls?",
+    "answer": "250 pax (persons) capacity"
+  },
+  {
+    "id": 38,
+    "category": "Urban Corridor",
+    "question": "How big is the urban corridor?",
+    "answer": "~12,304 sft (square feet)"
+  },
+  {
+    "id": 39,
+    "category": "Urban Corridor",
+    "question": "What all facilities and amenities are available in the urban corridor?",
+    "answer": "The urban corridor features: Entrance Lobby, Indoor Games, Clinic, Physiotherapy, Co-Working Space, and Tuition Room"
+  },
+  {
+    "id": 40,
+    "category": "Urban Corridor",
+    "question": "What is the height of the lobby or urban corridor?",
+    "answer": "20'8\" (approximately 6.3 meters)"
+  },
+  {
+    "id": 41,
+    "category": "Landscape Amenities",
+    "question": "How big is the open green space?",
+    "answer": "~30,000 sft of open green space"
+  },
+  {
+    "id": 42,
+    "category": "Landscape Amenities",
+    "question": "Is there any pet park in the community?",
+    "answer": "Yes, there is a pet park in the community"
+  },
+  {
+    "id": 43,
+    "category": "Specifications",
+    "question": "What would be the corridor width?",
+    "answer": "2.2 meters corridor width"
+  },
+  {
+    "id": 44,
+    "category": "Specifications",
+    "question": "How much is the external wall thickness?",
+    "answer": "250 mm external wall thickness"
+  },
+  {
+    "id": 45,
+    "category": "Specifications",
+    "question": "What is the size of the tiles or marbles?",
+    "answer": "4 BHK units: Marble flooring, no standard sizing (laid as slabs)\n3 BHK units: Vitrified tiles, 80 × 160 cm"
+  },
+  {
+    "id": 46,
+    "category": "Specifications",
+    "question": "How much is the net ceiling height after flooring?",
+    "answer": "2.93 M or 9'7\" net ceiling height after flooring"
+  },
+  {
+    "id": 47,
+    "category": "Specifications",
+    "question": "What would be the thickness of the glass wall or curtain wall?",
+    "answer": "There is no curtain wall in this project"
+  },
+  {
+    "id": 48,
+    "category": "Specifications",
+    "question": "Which brand sanitary fittings will be provided?",
+    "answer": "Reputed make sanitary fittings will be provided"
+  },
+  {
+    "id": 49,
+    "category": "Specifications",
+    "question": "Will there be a piped gas connection?",
+    "answer": "Yes, piped gas connection will be provided"
+  },
+  {
+    "id": 50,
+    "category": "Specifications",
+    "question": "Will you do the copper piping for AC?",
+    "answer": "No, copper piping for AC will not be provided by the developer"
+  }
+]

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASBL Legacy — Sales FAQ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Josefin+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo-wrap">
+        <div class="logo-asbl">ASBL</div>
+        <div class="logo-legacy">LEGACY</div>
+        <div class="logo-sub">RTC CROSS ROAD</div>
+      </div>
+      <nav class="header-nav">
+        <button class="nav-btn active" id="btn-search" onclick="showTab('search')">Search FAQ</button>
+        <button class="nav-btn" id="btn-admin" onclick="showTab('admin')">Admin View</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Search Tab -->
+  <main id="tab-search" class="tab-content active">
+
+    <!-- Hero -->
+    <section class="hero">
+      <p class="hero-eyebrow">Sales Intelligence Portal</p>
+      <h1 class="hero-title">Find Any Answer<br /><span class="hero-accent">Instantly</span></h1>
+      <p class="hero-sub">Search the complete project FAQ for ASBL Legacy at RTC Cross Road</p>
+    </section>
+
+    <!-- Search Area -->
+    <section class="search-section">
+      <div class="search-container">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Type your question — e.g. 'How many floors?' or 'parking logic'"
+            autocomplete="off"
+          />
+          <button class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="Clear search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="category-pills" id="category-pills">
+          <button class="pill active" onclick="filterCategory('all', this)">All</button>
+          <button class="pill" onclick="filterCategory('Project Level', this)">Project Level</button>
+          <button class="pill" onclick="filterCategory('Unit Level', this)">Unit Level</button>
+          <button class="pill" onclick="filterCategory('Clubhouse', this)">Clubhouse</button>
+          <button class="pill" onclick="filterCategory('Urban Corridor', this)">Urban Corridor</button>
+          <button class="pill" onclick="filterCategory('Landscape Amenities', this)">Landscape</button>
+          <button class="pill" onclick="filterCategory('Specifications', this)">Specifications</button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="results-area" id="results-area">
+        <!-- Default: show category grid -->
+        <div id="default-view">
+          <div class="stats-bar">
+            <div class="stat-item">
+              <span class="stat-num" id="total-count">50</span>
+              <span class="stat-label">Total FAQs</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">6</span>
+              <span class="stat-label">Categories</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">G+50</span>
+              <span class="stat-label">Floors / Tower</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">1499</span>
+              <span class="stat-label">Total Units</span>
+            </div>
+          </div>
+
+          <div class="category-grid" id="category-grid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Search results -->
+        <div id="search-results" class="hidden">
+          <div class="results-header">
+            <span id="results-count-label"></span>
+            <span id="results-source-badge" class="source-badge"></span>
+          </div>
+          <div id="results-list"></div>
+        </div>
+
+        <!-- AI thinking -->
+        <div id="ai-thinking" class="hidden">
+          <div class="ai-loader">
+            <div class="ai-pulse"></div>
+            <p>Searching knowledge base with AI...</p>
+          </div>
+        </div>
+
+        <!-- No results + Raise form -->
+        <div id="no-results" class="hidden">
+          <div class="no-results-wrap">
+            <div class="no-results-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+                <path d="M11 8v3M11 14h.01"/>
+              </svg>
+            </div>
+            <h3>No match found in the FAQ</h3>
+            <p>Raise this question to the Backend Team and we'll get back to you.</p>
+
+            <form class="raise-form" id="raise-form" onsubmit="submitQuestion(event)">
+              <div class="form-group">
+                <label for="raise-name">Your Name</label>
+                <input type="text" id="raise-name" placeholder="Enter your name" required />
+              </div>
+              <div class="form-group">
+                <label for="raise-question">Your Question</label>
+                <textarea id="raise-question" rows="3" placeholder="Describe what you'd like to know..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label>Priority</label>
+                <div class="priority-group">
+                  <label class="priority-option">
+                    <input type="radio" name="priority" value="Low" /> <span>Low</span>
+                  </label>
+                  <label class="priority-option">
+                    <input type="radio" name="priority" value="Medium" checked /> <span>Medium</span>
+                  </label>
+                  <label class="priority-option">
+                    <input type="radio" name="priority" value="High" /> <span>High</span>
+                  </label>
+                </div>
+              </div>
+              <button type="submit" class="btn-submit" id="submit-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                </svg>
+                Raise to Backend Team
+              </button>
+            </form>
+
+            <div id="raise-success" class="raise-success hidden">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/>
+              </svg>
+              <h4>Question Raised!</h4>
+              <p>The Backend Team has been notified. They'll respond shortly.</p>
+              <button class="btn-outline" onclick="resetAfterSubmit()">Ask Another Question</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Admin Tab -->
+  <main id="tab-admin" class="tab-content hidden">
+    <section class="admin-section">
+      <div class="admin-header">
+        <h2 class="admin-title">Raised Questions</h2>
+        <p class="admin-sub">Unanswered questions submitted by the sales team</p>
+        <button class="btn-outline" onclick="loadAdminQuestions()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23,4 23,11 16,11"/><polyline points="1,20 1,13 8,13"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 11M1 13l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+      <div id="admin-list">
+        <div class="admin-empty">Loading questions...</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
