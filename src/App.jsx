@@ -184,22 +184,64 @@ function searchFAQs(faqs, query, category) {
   if (!query.trim()) return pool
   const q = query.toLowerCase().trim()
   const words = q.split(/\s+/).filter(w => w.length > 2)
+  // Minimum score: exact phrase match OR all words must appear in the question
+  const minScore = q.length > 3 ? Math.max(4, words.length * 2) : 10
+
   return pool
     .map(faq => {
       const qText = faq.question.toLowerCase()
       const aText = faq.answer.toLowerCase()
       let score = 0
-      if (qText.includes(q)) score += 10
-      if (aText.includes(q)) score += 5
+      if (qText.includes(q)) score += 10   // exact phrase in question
+      if (aText.includes(q)) score += 5    // exact phrase in answer
       for (const w of words) {
-        if (qText.includes(w)) score += 2
-        if (aText.includes(w)) score += 1
+        if (qText.includes(w)) score += 2  // word in question
+        if (aText.includes(w)) score += 1  // word in answer
       }
       return { ...faq, score }
     })
-    .filter(f => f.score > 0)
+    .filter(f => f.score >= minScore)
     .sort((a, b) => b.score - a.score)
     .map(({ score, ...f }) => f)
+}
+
+// ── Markdown renderer ─────────────────────────────────────────────────────
+function Markdown({ text }) {
+  const lines = text.split('\n')
+  const elements = []
+  let listItems = []
+
+  function flushList() {
+    if (listItems.length) {
+      elements.push(<ul key={elements.length} className="md-list">{listItems}</ul>)
+      listItems = []
+    }
+  }
+
+  function parseLine(line) {
+    // bold **text**
+    const parts = line.split(/(\*\*[^*]+\*\*)/)
+    return parts.map((p, i) =>
+      p.startsWith('**') && p.endsWith('**')
+        ? <strong key={i}>{p.slice(2, -2)}</strong>
+        : p
+    )
+  }
+
+  lines.forEach((raw, i) => {
+    const line = raw.trim()
+    if (!line) { flushList(); return }
+
+    if (line.startsWith('* ') || line.startsWith('- ')) {
+      listItems.push(<li key={i}>{parseLine(line.slice(2))}</li>)
+    } else {
+      flushList()
+      elements.push(<p key={i} className="md-p">{parseLine(line)}</p>)
+    }
+  })
+  flushList()
+
+  return <div className="md-body">{elements}</div>
 }
 
 // ── ResultCard ─────────────────────────────────────────────────────────────
@@ -304,7 +346,7 @@ function AIAnswer({ answer, query, onReset }) {
             </div>
             <span className="ai-disclaimer">Based on project FAQ only</span>
           </div>
-          <p className="ai-answer-text">{answer}</p>
+          <div className="ai-answer-text"><Markdown text={answer} /></div>
           <div className="ai-actions">
             <button className="btn-outline" onClick={onReset}>Ask Another</button>
             {!showRaise && (
@@ -509,16 +551,18 @@ export default function App() {
   const runSearch = useCallback(async (q, cat, faqList) => {
     setAiAnswer(null)
     if (!q.trim() && cat === 'all') { setResults(null); return }
+
     const found = searchFAQs(faqList, q, cat)
-    if (found.length > 0) {
-      setResults({ items: found, source: cat !== 'all' && !q.trim() ? 'cat' : 'faq' })
-      return
+    // Show FAQ matches immediately (may be empty)
+    setResults({ items: found, source: cat !== 'all' && !q.trim() ? 'cat' : 'faq' })
+
+    // Always call AI for typed queries — show on top
+    if (q.trim()) {
+      setAiLoading(true)
+      const answer = await askOpenRouter(q, faqList)
+      setAiLoading(false)
+      if (answer) setAiAnswer(answer)
     }
-    setResults({ items: [], source: 'faq' })
-    setAiLoading(true)
-    const answer = await askOpenRouter(q, faqList)
-    setAiLoading(false)
-    if (answer) setAiAnswer(answer)
   }, [])
 
   function handleInput(e) {
@@ -633,10 +677,25 @@ export default function App() {
               </>
             )}
 
-            {!faqsLoading && hasResults && !noMatch && results.items.length > 0 && (
+            {/* AI loader — top */}
+            {aiLoading && (
+              <div className="ai-loading-wrap">
+                <div className="ai-spinner" />
+                <p>Getting AI answer...</p>
+              </div>
+            )}
+
+            {/* AI answer — top */}
+            {!aiLoading && aiAnswer && (
+              <AIAnswer answer={aiAnswer} query={query}
+                onReset={() => { handleClear(); showToast('Question raised to Supabase!') }} />
+            )}
+
+            {/* FAQ matches — below AI */}
+            {!faqsLoading && hasResults && results.items.length > 0 && (
               <>
-                <div className="results-header">
-                  <span>{results.items.length} result{results.items.length !== 1 ? 's' : ''} found</span>
+                <div className="results-header" style={{ marginTop: aiAnswer ? 24 : 0 }}>
+                  <span>{results.items.length} related FAQ{results.items.length !== 1 ? 's' : ''}</span>
                   <span className={`source-badge ${results.source}`}>
                     {results.source === 'cat' ? activeCategory : 'FAQ Match'}
                   </span>
@@ -646,18 +705,7 @@ export default function App() {
               </>
             )}
 
-            {aiLoading && (
-              <div className="ai-loading-wrap">
-                <div className="ai-spinner" />
-                <p>Searching knowledge base with AI...</p>
-              </div>
-            )}
-
-            {!aiLoading && aiAnswer && (
-              <AIAnswer answer={aiAnswer} query={query}
-                onReset={() => { handleClear(); showToast('Question raised to Supabase!') }} />
-            )}
-
+            {/* Raise form — only when AI + FAQ both return nothing */}
             {noMatch && !aiLoading && !aiAnswer && (
               <NoResults query={query}
                 onReset={() => { handleClear(); showToast('Question raised to Supabase!') }} />
