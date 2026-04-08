@@ -4,15 +4,13 @@ import './App.css'
 
 // ── Constants ──────────────────────────────────────────────────────────────
 const CATEGORIES = ['Project Level', 'Unit Level', 'Clubhouse', 'Urban Corridor', 'Landscape Amenities', 'Specifications']
-const OR_KEY = import.meta.env.VITE_OPENROUTER_API_KEY
+// ── AI Providers ───────────────────────────────────────────────────────────
+const OR_KEY   = import.meta.env.VITE_OPENROUTER_API_KEY
+const GROQ_KEY = import.meta.env.VITE_GROQ_API_KEY
 
-// ── OpenRouter AI ──────────────────────────────────────────────────────────
-
-// Pick top-N most relevant FAQs by word overlap — keeps context short
 function getRelevantFAQs(faqs, userQuestion, n = 12) {
   const words = userQuestion.toLowerCase().split(/\s+/).filter(w => w.length > 2)
   if (words.length === 0) return faqs.slice(0, n)
-
   return faqs
     .map(f => {
       const text = (f.question + ' ' + f.answer).toLowerCase()
@@ -24,20 +22,16 @@ function getRelevantFAQs(faqs, userQuestion, n = 12) {
     .map(({ score, ...f }) => f)
 }
 
-async function askOpenRouter(userQuestion, allFaqs) {
-  if (!OR_KEY) {
-    console.warn('[AI] No OpenRouter key found — check .env.local')
-    return null
-  }
-
-  const relevant = getRelevantFAQs(allFaqs, userQuestion)
-  const context = relevant.map(f => `Q: ${f.question}\nA: ${f.answer}`).join('\n\n')
-
-  const systemPrompt = `You are a helpful sales assistant for ASBL Legacy, a premium residential project at RTC Cross Road, Hyderabad by ASBL. Answer questions using the FAQ below. Be concise. If the question cannot be answered from the FAQ, reply with exactly the word: UNANSWERED
+function buildSystemPrompt(context) {
+  return `You are a helpful sales assistant for ASBL Legacy, a premium residential project at RTC Cross Road, Hyderabad by ASBL. Answer questions using the FAQ below. Be concise and format your response clearly. If the question cannot be answered from the FAQ, reply with exactly: UNANSWERED
 
 FAQ:
 ${context}`
+}
 
+async function askOpenRouter(userQuestion, allFaqs) {
+  if (!OR_KEY) return null
+  const context = getRelevantFAQs(allFaqs, userQuestion).map(f => `Q: ${f.question}\nA: ${f.answer}`).join('\n\n')
   try {
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -50,32 +44,73 @@ ${context}`
       body: JSON.stringify({
         model: 'google/gemma-4-26b-a4b-it',
         messages: [
-          { role: 'system', content: systemPrompt },
+          { role: 'system', content: buildSystemPrompt(context) },
           { role: 'user', content: userQuestion },
         ],
         max_tokens: 400,
         temperature: 0.3,
       }),
     })
+    if (!res.ok) return null
+    const data = await res.json()
+    const answer = data?.choices?.[0]?.message?.content?.trim()
+    if (!answer || answer.trim().toUpperCase() === 'UNANSWERED') return null
+    console.log('[OpenRouter] answered first')
+    return answer
+  } catch { return null }
+}
 
-    if (!res.ok) {
-      const errText = await res.text()
-      console.error('[AI] HTTP error', res.status, errText)
-      return null
+async function askGroq(userQuestion, allFaqs) {
+  if (!GROQ_KEY) return null
+  const context = getRelevantFAQs(allFaqs, userQuestion).map(f => `Q: ${f.question}\nA: ${f.answer}`).join('\n\n')
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${GROQ_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-oss-120b',
+        messages: [
+          { role: 'system', content: buildSystemPrompt(context) },
+          { role: 'user', content: userQuestion },
+        ],
+        temperature: 1,
+        max_completion_tokens: 8192,
+        top_p: 1,
+        stream: false,
+        reasoning_effort: 'medium',
+      }),
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    const answer = data?.choices?.[0]?.message?.content?.trim()
+    if (!answer || answer.trim().toUpperCase() === 'UNANSWERED') return null
+    console.log('[Groq] answered first')
+    return answer
+  } catch { return null }
+}
+
+// Race both — return first non-null answer
+async function askAI(userQuestion, allFaqs) {
+  return new Promise((resolve) => {
+    let settled = false
+    let remaining = 2
+
+    function handle(answer) {
+      remaining--
+      if (answer && !settled) {
+        settled = true
+        resolve(answer)
+      } else if (remaining === 0 && !settled) {
+        resolve(null)
+      }
     }
 
-    const data = await res.json()
-    console.log('[AI] Raw response:', data)
-
-    const answer = data?.choices?.[0]?.message?.content?.trim()
-    console.log('[AI] Answer:', answer)
-
-    if (!answer || answer.trim().toUpperCase() === 'UNANSWERED') return null
-    return answer
-  } catch (err) {
-    console.error('[AI] Fetch error:', err)
-    return null
-  }
+    askOpenRouter(userQuestion, allFaqs).then(handle).catch(() => handle(null))
+    askGroq(userQuestion, allFaqs).then(handle).catch(() => handle(null))
+  })
 }
 
 // ── Logo SVG ───────────────────────────────────────────────────────────────
@@ -559,7 +594,7 @@ export default function App() {
     // Always call AI for typed queries — show on top
     if (q.trim()) {
       setAiLoading(true)
-      const answer = await askOpenRouter(q, faqList)
+      const answer = await askAI(q, faqList)
       setAiLoading(false)
       if (answer) setAiAnswer(answer)
     }
