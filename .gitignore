@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+
+# Secrets & credentials
+.env
+.env.*
+!.env.example
+ASBL_Legacy_Credentials.txt
+.mcp.json

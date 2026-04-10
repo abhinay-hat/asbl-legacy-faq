@@ -61,35 +61,13 @@ body {
 
 .logo-wrap {
   display: flex;
-  flex-direction: column;
-  gap: 0;
-  line-height: 1;
+  align-items: center;
 }
 
-.logo-asbl {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  color: var(--muted);
-}
-
-.logo-legacy {
-  font-family: var(--font-head);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--black);
-  line-height: 1.1;
-}
-
-.logo-sub {
-  font-family: var(--font-body);
-  font-size: 9px;
-  letter-spacing: 0.3em;
-  color: var(--terracotta);
-  font-weight: 500;
-  margin-top: 1px;
+.logo-wrap svg {
+  display: block;
+  height: 52px;
+  width: auto;
 }
 
 .header-nav {
@@ -123,7 +101,7 @@ body {
 /* ── Hero ─────────────────────────────────────────────────────── */
 .hero {
   text-align: center;
-  padding: 72px 24px 52px;
+  padding: 44px 24px 36px;
   max-width: 760px;
   margin: 0 auto;
 }
@@ -741,7 +719,7 @@ body {
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .header-inner { padding: 0 16px; }
-  .logo-legacy  { font-size: 18px; }
+  .logo-wrap svg { height: 46px; }
   .hero         { padding: 48px 16px 36px; }
   .search-section { padding: 0 16px 60px; }
   .stats-bar { grid-template-columns: repeat(2, 1fr); }
@@ -763,3 +741,445 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* ── Login Page ───────────────────────────────────────────────── */
+body.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream);
+}
+
+.login-wrap {
+  width: 100%;
+  max-width: 460px;
+  padding: 24px;
+}
+
+.login-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 52px 44px 44px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.login-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.login-divider {
+  width: 40px;
+  height: 2px;
+  background: var(--terracotta);
+  margin: 0 auto 20px;
+  border-radius: 2px;
+}
+
+.login-title {
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.login-sub {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  margin-bottom: 32px;
+}
+
+.login-form {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrap input {
+  width: 100%;
+  padding-right: 44px;
+}
+
+.pw-toggle {
+  position: absolute;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color 200ms;
+}
+
+.pw-toggle:hover { color: var(--terracotta); }
+.pw-toggle svg { width: 16px; height: 16px; }
+
+.login-btn {
+  width: 100%;
+  margin-top: 8px;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+
+.login-error {
+  background: #FFF1F2;
+  border: 1px solid #FECDD3;
+  color: #9F1239;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+  text-align: left;
+}
+
+.login-footer {
+  font-size: 11px;
+  color: #B0A9A3;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-top: 24px;
+  text-align: center;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* ── Header User Area ─────────────────────────────────────────── */
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: var(--white);
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+.logout-btn {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 200ms ease;
+}
+
+.logout-btn svg { width: 13px; height: 13px; }
+.logout-btn:hover { border-color: #DC2626; color: #DC2626; }
+
+/* ── Admin Sub-Tabs ───────────────────────────────────────────── */
+.admin-subtabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 28px;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  width: fit-content;
+}
+
+.admin-subtab {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 9px 18px;
+  border-radius: calc(var(--radius-md) - 4px);
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 200ms ease;
+}
+
+.admin-subtab svg { width: 14px; height: 14px; flex-shrink: 0; }
+.admin-subtab:hover { color: var(--terracotta); }
+.admin-subtab.active { background: var(--white); color: var(--terracotta); box-shadow: var(--shadow-sm); }
+
+.subtab-badge {
+  background: var(--terracotta);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 100px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── FAQ Toolbar ──────────────────────────────────────────────── */
+.faq-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.faq-search-wrap {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  transition: border-color 200ms;
+}
+
+.faq-search-wrap:focus-within { border-color: var(--terracotta); }
+
+.faq-search-wrap svg { width: 16px; height: 16px; color: var(--muted); flex-shrink: 0; }
+
+.faq-search-wrap input {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink);
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+}
+
+.faq-search-wrap input::placeholder { color: #B0A9A3; }
+
+.btn-add-faq {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  background: var(--terracotta);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 200ms;
+  white-space: nowrap;
+}
+
+.btn-add-faq svg { width: 14px; height: 14px; }
+.btn-add-faq:hover { background: var(--terracotta-d); }
+
+.faq-list-meta {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+}
+
+/* ── Add FAQ Panel ────────────────────────────────────────────── */
+.add-faq-panel {
+  background: var(--white);
+  border: 1.5px solid var(--terracotta-l);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.add-faq-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: 0.04em;
+  margin-bottom: 20px;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr; gap: 18px; }
+
+.add-faq-panel select,
+.faq-edit-view select {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 200ms;
+  width: 100%;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235A5A5A' stroke-width='2'%3E%3Cpolyline points='6,9 12,15 18,9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.add-faq-panel select:focus,
+.faq-edit-view select:focus { border-color: var(--terracotta); }
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* ── Admin FAQ Cards ──────────────────────────────────────────── */
+.admin-faq-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: box-shadow 200ms;
+}
+
+.admin-faq-card:hover { box-shadow: var(--shadow-md); }
+
+.faq-read-view { padding: 18px 20px; }
+
+.faq-read-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.faq-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms;
+}
+
+.btn-icon svg { width: 14px; height: 14px; }
+.btn-icon:hover { border-color: var(--terracotta); color: var(--terracotta); background: var(--terracotta-xs); }
+.btn-icon-delete:hover { border-color: #DC2626; color: #DC2626; background: #FFF1F2; }
+
+.faq-read-question {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--black);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.faq-read-answer {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+  white-space: pre-line;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.faq-edit-view {
+  padding: 20px;
+  background: #FAFAFA;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Questions Toolbar ────────────────────────────────────────── */
+.questions-toolbar {
+  margin-bottom: 20px;
+}
+
+/* ── Responsive Updates ───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .header-inner { padding: 0 12px; gap: 8px; }
+  .user-name { display: none; }
+  .logout-btn span { display: none; }
+  .hero { padding: 32px 16px 24px; }
+  .login-card { padding: 36px 24px 32px; }
+  .admin-subtabs { width: 100%; }
+  .admin-subtab { flex: 1; justify-content: center; font-size: 11px; padding: 8px 10px; }
+  .faq-toolbar { flex-direction: column; align-items: stretch; }
+  .btn-add-faq { justify-content: center; }
+  .form-actions { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .header-inner { height: 60px; }
+  .login-card { padding: 28px 20px; }
+  .admin-subtab svg { display: none; }
+}
+
+/* ── Spin animation for login button ──────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }

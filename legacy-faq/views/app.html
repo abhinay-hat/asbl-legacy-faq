@@ -7,35 +7,48 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Josefin+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+
   <!-- Header -->
   <header class="header">
     <div class="header-inner">
-      <div class="logo-wrap">
-        <div class="logo-asbl">ASBL</div>
-        <div class="logo-legacy">LEGACY</div>
-        <div class="logo-sub">RTC CROSS ROAD</div>
+      <div class="logo-wrap" aria-label="ASBL Legacy RTC Cross Road">
+        <svg viewBox="0 0 220 72" height="52" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+          <defs><style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Josefin+Sans:wght@600&display=swap');</style></defs>
+          <text x="110" y="13" font-family="'Josefin Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="3" text-anchor="middle" fill="#0F0F0F">ASBL</text>
+          <text x="110" y="52" font-family="'Playfair Display', Georgia, serif" font-size="38" font-weight="400" letter-spacing="1" text-anchor="middle" fill="#0F0F0F">LEGACY</text>
+          <text x="110" y="68" font-family="'Josefin Sans', sans-serif" font-size="8" font-weight="600" letter-spacing="4" text-anchor="middle" fill="#0F0F0F">RTC CROSS ROAD</text>
+        </svg>
       </div>
       <nav class="header-nav">
         <button class="nav-btn active" id="btn-search" onclick="showTab('search')">Search FAQ</button>
-        <button class="nav-btn" id="btn-admin" onclick="showTab('admin')">Admin View</button>
+        <button class="nav-btn" id="btn-admin" style="display:none" onclick="showTab('admin')">Admin Panel</button>
       </nav>
+      <div class="header-user">
+        <span class="user-avatar" id="user-avatar"></span>
+        <span class="user-name" id="user-info"></span>
+        <button class="logout-btn" onclick="logout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16,17 21,12 16,7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Sign Out
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Search Tab -->
+  <!-- ── Search Tab ──────────────────────────────────────────────── -->
   <main id="tab-search" class="tab-content active">
 
-    <!-- Hero -->
     <section class="hero">
       <p class="hero-eyebrow">Sales Intelligence Portal</p>
-      <h1 class="hero-title">Find Any Answer<br /><span class="hero-accent">Instantly</span></h1>
       <p class="hero-sub">Search the complete project FAQ for ASBL Legacy at RTC Cross Road</p>
     </section>
 
-    <!-- Search Area -->
     <section class="search-section">
       <div class="search-container">
         <div class="search-wrap">
@@ -56,7 +69,6 @@
           </button>
         </div>
 
-        <!-- Category Pills -->
         <div class="category-pills" id="category-pills">
           <button class="pill active" onclick="filterCategory('all', this)">All</button>
           <button class="pill" onclick="filterCategory('Project Level', this)">Project Level</button>
@@ -68,13 +80,11 @@
         </div>
       </div>
 
-      <!-- Results -->
       <div class="results-area" id="results-area">
-        <!-- Default: show category grid -->
         <div id="default-view">
           <div class="stats-bar">
             <div class="stat-item">
-              <span class="stat-num" id="total-count">50</span>
+              <span class="stat-num" id="total-count">—</span>
               <span class="stat-label">Total FAQs</span>
             </div>
             <div class="stat-item">
@@ -90,13 +100,9 @@
               <span class="stat-label">Total Units</span>
             </div>
           </div>
-
-          <div class="category-grid" id="category-grid">
-            <!-- Populated by JS -->
-          </div>
+          <div class="category-grid" id="category-grid"></div>
         </div>
 
-        <!-- Search results -->
         <div id="search-results" class="hidden">
           <div class="results-header">
             <span id="results-count-label"></span>
@@ -105,7 +111,6 @@
           <div id="results-list"></div>
         </div>
 
-        <!-- AI thinking -->
         <div id="ai-thinking" class="hidden">
           <div class="ai-loader">
             <div class="ai-pulse"></div>
@@ -113,7 +118,6 @@
           </div>
         </div>
 
-        <!-- No results + Raise form -->
         <div id="no-results" class="hidden">
           <div class="no-results-wrap">
             <div class="no-results-icon">
@@ -171,29 +175,115 @@
     </section>
   </main>
 
-  <!-- Admin Tab -->
+  <!-- ── Admin Tab ───────────────────────────────────────────────── -->
   <main id="tab-admin" class="tab-content hidden">
     <section class="admin-section">
       <div class="admin-header">
-        <h2 class="admin-title">Raised Questions</h2>
-        <p class="admin-sub">Unanswered questions submitted by the sales team</p>
-        <button class="btn-outline" onclick="loadAdminQuestions()">
+        <h2 class="admin-title">Admin Panel</h2>
+        <p class="admin-sub">Manage FAQs and review raised questions</p>
+      </div>
+
+      <div class="admin-subtabs">
+        <button class="admin-subtab active" id="at-faqs" onclick="showAdminTab('faqs')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23,4 23,11 16,11"/><polyline points="1,20 1,13 8,13"/>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 11M1 13l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
           </svg>
-          Refresh
+          FAQ Manager
+        </button>
+        <button class="admin-subtab" id="at-questions" onclick="showAdminTab('questions')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Raised Questions
+          <span id="questions-badge" class="subtab-badge" style="display:none"></span>
         </button>
       </div>
-      <div id="admin-list">
-        <div class="admin-empty">Loading questions...</div>
+
+      <!-- FAQ Manager Panel -->
+      <div id="admin-faqs-panel">
+        <div class="faq-toolbar">
+          <div class="faq-search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input
+              type="text"
+              id="admin-faq-search"
+              placeholder="Filter FAQs by keyword..."
+              oninput="renderAdminFAQs(this.value)"
+              autocomplete="off"
+            />
+          </div>
+          <button class="btn-add-faq" id="btn-add-faq" onclick="toggleAddFaqForm(true)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add New FAQ
+          </button>
+        </div>
+
+        <div id="add-faq-panel" class="add-faq-panel" style="display:none">
+          <h3 class="add-faq-title">Add New FAQ</h3>
+          <form id="add-faq-form" onsubmit="addNewFaq(event)">
+            <div class="form-group">
+              <label for="new-faq-category">Category</label>
+              <select id="new-faq-category" required>
+                <option value="">Select category...</option>
+                <option value="Project Level">Project Level</option>
+                <option value="Unit Level">Unit Level</option>
+                <option value="Clubhouse">Clubhouse</option>
+                <option value="Urban Corridor">Urban Corridor</option>
+                <option value="Landscape Amenities">Landscape Amenities</option>
+                <option value="Specifications">Specifications</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="new-faq-question">Question</label>
+              <textarea id="new-faq-question" rows="2" placeholder="Enter the question..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="new-faq-answer">Answer</label>
+              <textarea id="new-faq-answer" rows="4" placeholder="Enter the full answer..." required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-submit" id="add-faq-btn" style="width:auto;padding:12px 24px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20,6 9,17 4,12"/>
+                </svg>
+                Save FAQ
+              </button>
+              <button type="button" class="btn-outline" onclick="toggleAddFaqForm(false)">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="faq-list-meta" id="faq-list-meta"></div>
+        <div id="admin-faq-list"><div class="admin-empty">Loading FAQs...</div></div>
       </div>
+
+      <!-- Raised Questions Panel -->
+      <div id="admin-questions-panel" style="display:none">
+        <div class="questions-toolbar">
+          <button class="btn-outline" onclick="loadAdminQuestions()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23,4 23,11 16,11"/><polyline points="1,20 1,13 8,13"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 11M1 13l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+            Refresh
+          </button>
+        </div>
+        <div id="admin-list"><div class="admin-empty">Loading questions...</div></div>
+      </div>
+
     </section>
   </main>
 
-  <!-- Toast -->
-  <div id="toast" class="toast hidden"></div>
+  <div id="toast" class="toast" style="display:none"></div>
 
-  <script src="app.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>
