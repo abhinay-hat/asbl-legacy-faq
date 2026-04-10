@@ -30,22 +30,25 @@ export function onAuthStateChange(callback) {
 // ── User Management (super_admin only — calls Edge Function) ───────────────
 const EDGE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/manage-users`
 
+// Edge Functions with verify_jwt:true require the legacy anon key (JWT format),
+// not the modern publishable key (sb_publishable_...) in the apikey header.
+const EDGE_APIKEY = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+
 async function edgeHeaders() {
   // refreshSession() returns a fresh token if the current one is expired
   const { data, error } = await supabase.auth.refreshSession()
   if (error || !data.session) {
-    // Fall back to cached session (may still work if not yet expired)
     const { data: cached } = await supabase.auth.getSession()
     return {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${cached.session?.access_token}`,
-      'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
+      'apikey': EDGE_APIKEY,
     }
   }
   return {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${data.session.access_token}`,
-    'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
+    'apikey': EDGE_APIKEY,
   }
 }
 
