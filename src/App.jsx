@@ -1220,7 +1220,7 @@ export default function App() {
         <main>
           <section className="hero">
             <p className="hero-eyebrow">Sales Intelligence Portal</p>
-            <h1 className="hero-title">ASBL Legacy<br /><span className="hero-accent">FAQ Portal</span></h1>
+            <h1 className="hero-title">ASBL Legacy<br /><span className="hero-accent">Instantly</span></h1>
             <p className="hero-sub">Search the complete project FAQ for ASBL Legacy at RTC Cross Road</p>
           </section>
 
