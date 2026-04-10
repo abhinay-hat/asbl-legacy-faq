@@ -31,10 +31,20 @@ export function onAuthStateChange(callback) {
 const EDGE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/manage-users`
 
 async function edgeHeaders() {
-  const { data } = await supabase.auth.getSession()
+  // refreshSession() returns a fresh token if the current one is expired
+  const { data, error } = await supabase.auth.refreshSession()
+  if (error || !data.session) {
+    // Fall back to cached session (may still work if not yet expired)
+    const { data: cached } = await supabase.auth.getSession()
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${cached.session?.access_token}`,
+      'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
+    }
+  }
   return {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${data.session?.access_token}`,
+    'Authorization': `Bearer ${data.session.access_token}`,
     'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
   }
 }
