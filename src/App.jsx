@@ -149,10 +149,11 @@ async function askGroq(userQuestion, allFaqs) {
           { role: 'system', content: buildSystemPrompt(context) },
           { role: 'user', content: userQuestion },
         ],
-        temperature: 0.3,
-        max_completion_tokens: 400,
+        temperature: 1,
+        max_completion_tokens: 8192,
         top_p: 1,
         stream: false,
+        reasoning_effort: 'medium',
       }),
     })
     if (!res.ok) return null
