@@ -175,7 +175,7 @@ async function askCerebras(userQuestion, allFaqs) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'llama-4-scout-17b-16e-instruct',
+        model: 'llama3.1-8b',
         messages: [
           { role: 'system', content: buildSystemPrompt(context) },
           { role: 'user', content: userQuestion },
