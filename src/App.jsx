@@ -98,9 +98,9 @@ function LoginPage({ onLogin }) {
 // ── Constants ──────────────────────────────────────────────────────────────
 const CATEGORIES = ['Project Level', 'Unit Level', 'Clubhouse', 'Urban Corridor', 'Landscape Amenities', 'Specifications']
 // ── AI Providers ───────────────────────────────────────────────────────────
-const OR_KEY   = import.meta.env.VITE_OPENROUTER_API_KEY
-const GROQ_KEY = import.meta.env.VITE_GROQ_API_KEY
-
+const OR_KEY       = import.meta.env.VITE_OPENROUTER_API_KEY
+const GROQ_KEY     = import.meta.env.VITE_GROQ_API_KEY
+const CEREBRAS_KEY = import.meta.env.VITE_CEREBRAS_API_KEY
 
 async function askOpenRouter(userQuestion, allFaqs) {
   if (!OR_KEY) return null
@@ -149,11 +149,10 @@ async function askGroq(userQuestion, allFaqs) {
           { role: 'system', content: buildSystemPrompt(context) },
           { role: 'user', content: userQuestion },
         ],
-        temperature: 1,
-        max_completion_tokens: 8192,
+        temperature: 0.3,
+        max_completion_tokens: 400,
         top_p: 1,
         stream: false,
-        reasoning_effort: 'medium',
       }),
     })
     if (!res.ok) return null
@@ -165,11 +164,40 @@ async function askGroq(userQuestion, allFaqs) {
   } catch { return null }
 }
 
-// Race both — return first non-null answer
+async function askCerebras(userQuestion, allFaqs) {
+  if (!CEREBRAS_KEY) return null
+  const context = getRelevantFAQs(allFaqs, userQuestion).map(f => `Q: ${f.question}\nA: ${f.answer}`).join('\n\n')
+  try {
+    const res = await fetch('https://api.cerebras.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${CEREBRAS_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'llama-4-scout-17b-16e-instruct',
+        messages: [
+          { role: 'system', content: buildSystemPrompt(context) },
+          { role: 'user', content: userQuestion },
+        ],
+        max_tokens: 400,
+        temperature: 0.3,
+      }),
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    const answer = data?.choices?.[0]?.message?.content?.trim()
+    if (!answer || answer.trim().toUpperCase() === 'UNANSWERED') return null
+    console.log('[Cerebras] answered first')
+    return answer
+  } catch { return null }
+}
+
+// Race all three — return first non-null answer
 async function askAI(userQuestion, allFaqs) {
   return new Promise((resolve) => {
     let settled = false
-    let remaining = 2
+    let remaining = 3
 
     function handle(answer) {
       remaining--
@@ -181,8 +209,9 @@ async function askAI(userQuestion, allFaqs) {
       }
     }
 
-    askOpenRouter(userQuestion, allFaqs).then(handle).catch(() => handle(null))
+    askCerebras(userQuestion, allFaqs).then(handle).catch(() => handle(null))
     askGroq(userQuestion, allFaqs).then(handle).catch(() => handle(null))
+    askOpenRouter(userQuestion, allFaqs).then(handle).catch(() => handle(null))
   })
 }
 

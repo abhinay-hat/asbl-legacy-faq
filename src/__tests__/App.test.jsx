@@ -120,7 +120,7 @@ beforeEach(() => {
   vi.clearAllMocks()
   window.location.hash = ''
   window.confirm = vi.fn(() => true)
-  // Prevent real HTTP calls to OpenRouter / Groq — AI should return null in tests
+  // Prevent real HTTP calls to OpenRouter / Groq / Cerebras — AI should return null in tests
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }))
 })
 
